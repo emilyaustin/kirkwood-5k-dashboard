@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kirkwood Spring Fling 5K — Analytics</title>
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'none'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self'; img-src 'self' data: https://static.wixstatic.com; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; object-src 'none';">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏃‍♀️</text></svg>">
+  <link rel="stylesheet" href="site.css">
+</head>
+<body>
+
+<header>
+  <img class="logo" src="https://static.wixstatic.com/media/2ef528_7bda93e781684c99b2126add64b6d58a~mv2.png/v1/fill/w_1330,h_687,al_c,q_90,enc_avif,quality_auto/Kirkwood_Phase_1_Website%20-%20800x400.png" alt="Kirkwood Spring Fling" />
+  <div class="header-text">
+    <h1><span>Kirkwood</span> Spring Fling 5K</h1>
+    <p>Atlanta, GA &nbsp;&middot;&nbsp; Annual Road Race &nbsp;&middot;&nbsp; 2016&ndash;2026</p>
+  </div>
+</header>
+
+<main>
+  <div id="loading">Loading race data&hellip;</div>
+  <div id="error-msg">
+    <strong>Could not load data.json.</strong><br>
+    If you're opening this file directly from disk, serve it locally instead:<br>
+    <code>python3 -m http.server 8000</code> &nbsp;&rarr;&nbsp; open <code>http://localhost:8000</code>
+  </div>
+
+  <div id="content">
+
+    <!-- Summary -->
+    <section>
+      <div class="cards-grid" id="stat-cards"></div>
+    </section>
+
+    <!-- Participation -->
+    <section>
+      <h2>Participation</h2>
+      <div class="charts-grid">
+        <div class="chart-card" style="grid-column: 1 / -1">
+          <h3>Finishers by Year</h3>
+          <p class="sub">Total finishers broken down by gender &nbsp;&middot;&nbsp; <em>2017: no gender data available</em></p>
+          <div class="chart-wrap"><canvas id="finishersChart"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <h3>Age Group Distribution</h3>
+          <p class="sub">Share of finishers in each age bracket, by year</p>
+          <div class="chart-wrap"><canvas id="ageDistChart"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <h3>Female Participation Rate</h3>
+          <p class="sub">Percentage of finishers who identify as female &nbsp;&middot;&nbsp; <em>2017: no gender data available</em></p>
+          <div class="chart-wrap"><canvas id="genderChart"></canvas></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Speed -->
+    <section>
+      <h2>Is the Race Getting Faster?</h2>
+      <div class="charts-grid">
+        <div class="chart-card">
+          <h3>Overall Podium Times</h3>
+          <p class="sub">Top 3 finishing times each year</p>
+          <div class="controls">
+            <div class="gender-toggle">
+              <button id="podiumGenderAll" class="active-all">All</button>
+              <button id="podiumGenderM">M</button>
+              <button id="podiumGenderF">F</button>
+            </div>
+          </div>
+          <div class="chart-wrap"><canvas id="podiumChart"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <h3>Age Group Podium — Winning Times</h3>
+          <p class="sub">Is your age group getting more competitive?</p>
+          <div class="controls">
+            <label for="agSelect">Age group:</label>
+            <select id="agSelect"></select>
+            <div class="gender-toggle">
+              <button id="agGenderAll" class="active-all">All</button>
+              <button id="agGenderM">M</button>
+              <button id="agGenderF">F</button>
+            </div>
+          </div>
+          <div class="chart-wrap"><canvas id="ageGroupChart"></canvas></div>
+        </div>
+        <div class="chart-card" style="grid-column: 1 / -1">
+          <h3>Field-Wide Finishing Times</h3>
+          <p class="sub">Median and mean finishing times across all runners</p>
+          <div class="chart-wrap"><canvas id="medianChart"></canvas></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Weather -->
+    <section>
+      <h2>Race Day Weather</h2>
+      <div class="chart-card">
+        <h3>Temperature &amp; Precipitation</h3>
+        <p class="sub">High/low temps on race day, colored by condition &nbsp;&middot;&nbsp; precipitation on right axis. 2021 was moved to July due to COVID.</p>
+        <div class="chart-wrap" style="height:300px"><canvas id="weatherChart"></canvas></div>
+      </div>
+    </section>
+
+    <!-- Percentile Calculator -->
+    <section>
+      <h2>How Did You Finish?</h2>
+      <div class="chart-card">
+        <h3>Finish Time Percentile Calculator</h3>
+        <p class="sub">Enter your finish time to see how you ranked against other participants</p>
+        <div class="calc-controls">
+          <div class="calc-row">
+            <label for="calcYear">Year</label>
+            <select id="calcYear"></select>
+            <label>Gender</label>
+            <div class="gender-toggle">
+              <button id="calcGenderAll" class="active-all">All</button>
+              <button id="calcGenderM">M</button>
+              <button id="calcGenderF">F</button>
+            </div>
+            <label for="calcAge">Age group</label>
+            <select id="calcAge"></select>
+          </div>
+          <div class="calc-row">
+            <label for="calcTime">Your time</label>
+            <input type="text" id="calcTime" placeholder="MM:SS" maxlength="8" />
+            <button id="calcBtn" class="calc-submit">Calculate</button>
+          </div>
+        </div>
+        <div id="calcResult" class="calc-result"></div>
+        <div id="calcChartWrap" style="position:relative; height:220px; margin-top:1.25rem; display:none">
+          <canvas id="calcChart"></canvas>
+        </div>
+      </div>
+    </section>
+
+  </div><!-- #content -->
+</main>
+
+<footer>
+  Data from <a href="https://runsignup.com/race/results/31048" target="_blank" rel="noopener noreferrer">RunSignUp</a>.
+  &nbsp;2020 race was cancelled (COVID-19).
+  &nbsp;&middot;&nbsp; Made by <a href="https://whyli.me/" target="_blank" rel="noopener noreferrer">mle</a>.
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js" integrity="sha384-NrKB+u6Ts6AtkIhwPixiKTzgSKNblyhlk0Sohlgar9UHUBzai/sgnNNWWd291xqt" crossorigin="anonymous"></script>
+<script src="site.js"></script>
+</body>
+</html>
