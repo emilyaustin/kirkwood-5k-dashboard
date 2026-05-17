@@ -505,7 +505,7 @@ function renderWeather(years) {
             afterBody(items) {
               const y = labels[items[0].dataIndex];
               const w = WEATHER[y];
-              return w ? [`Condition: ${w.condition}`, `Date: ${w.date}`] : [];
+              return w ? [`Condition: ${w.condition}`, `8am temp: ${w.temp_8am}°F`, `Date: ${w.date}`] : [];
             },
           },
         },
