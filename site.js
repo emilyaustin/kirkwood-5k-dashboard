@@ -105,7 +105,7 @@ function renderCards(stats, years, data) {
 
   // Avg race-day high from WEATHER
   const weatherYears = years.filter(y => WEATHER[y]);
-  const avgHigh = Math.round(weatherYears.reduce((s, y) => s + WEATHER[y].high_f, 0) / weatherYears.length);
+  const avgHigh = Math.round(weatherYears.reduce((s, y) => s + WEATHER[y].temp_8am, 0) / weatherYears.length);
   const condCounts = {};
   for (const y of weatherYears) {
     const c = WEATHER[y].condition;
@@ -135,7 +135,7 @@ function renderCards(stats, years, data) {
     makeCard('#f59e0b', '🥇', 'Course Record (M)',   fmtTime(crTime),                   `set in ${crYear}`),
     makeCard('#ec4899', '🥇', 'Course Record (F)',   fmtTime(crTimeF),                  `set in ${crYearF}`),
     makeCard('#8b5cf6', '🎂', 'Oldest & Youngest',   `${oldest.age} & ${youngest.age}`, `oldest in ${oldest.year} · youngest in ${youngest.year}`),
-    makeCard('#f97316', condIcon[topCond] || '⛅',   'Avg Race Day',                    `${avgHigh}°F`,                        `avg high · ${topCond} most common`),
+    makeCard('#f97316', condIcon[topCond] || '⛅',   'Avg Race Day',                    `${avgHigh}°F`,                        `avg 8am temp · ${topCond} most common`),
   );
 }
 
@@ -433,16 +433,16 @@ function setupAgeGroupSelect(stats, years) {
 // ── Weather Data ─────────────────────────────────────────────────────────────
 
 const WEATHER = {
-  2016: { date: '2016-05-14', high_f: 81.1, low_f: 54.4, precip_in: 0.00, condition: 'Partly Cloudy' },
-  2017: { date: '2017-05-20', high_f: 90.6, low_f: 68.2, precip_in: 0.03, condition: 'Drizzle'       },
-  2018: { date: '2018-05-19', high_f: 79.7, low_f: 66.1, precip_in: 0.03, condition: 'Drizzle'       },
-  2019: { date: '2019-05-18', high_f: 85.2, low_f: 63.6, precip_in: 0.01, condition: 'Drizzle'       },
-  2021: { date: '2021-07-31', high_f: 92.0, low_f: 75.2, precip_in: 0.00, condition: 'Clear'         },
-  2022: { date: '2022-05-14', high_f: 80.3, low_f: 60.3, precip_in: 0.00, condition: 'Partly Cloudy' },
-  2023: { date: '2023-05-13', high_f: 83.0, low_f: 62.1, precip_in: 0.01, condition: 'Drizzle'       },
-  2024: { date: '2024-05-18', high_f: 75.7, low_f: 66.1, precip_in: 0.61, condition: 'Rain'          },
-  2025: { date: '2025-05-17', high_f: 84.6, low_f: 69.3, precip_in: 0.22, condition: 'Rain'          },
-  2026: { date: '2026-05-16', high_f: 84.7, low_f: 57.9, precip_in: 0.00, condition: 'Partly Cloudy' },
+  2016: { date: '2016-05-14', high_f: 81.1, low_f: 54.4, temp_8am: 58.2, precip_in: 0.00, condition: 'Partly Cloudy' },
+  2017: { date: '2017-05-20', high_f: 90.6, low_f: 68.2, temp_8am: 71.7, precip_in: 0.03, condition: 'Drizzle'       },
+  2018: { date: '2018-05-19', high_f: 79.7, low_f: 66.1, temp_8am: 68.4, precip_in: 0.03, condition: 'Drizzle'       },
+  2019: { date: '2019-05-18', high_f: 85.2, low_f: 63.6, temp_8am: 68.1, precip_in: 0.01, condition: 'Drizzle'       },
+  2021: { date: '2021-07-31', high_f: 92.0, low_f: 75.2, temp_8am: 76.4, precip_in: 0.00, condition: 'Clear'         },
+  2022: { date: '2022-05-14', high_f: 80.3, low_f: 60.3, temp_8am: 62.5, precip_in: 0.00, condition: 'Partly Cloudy' },
+  2023: { date: '2023-05-13', high_f: 83.0, low_f: 62.1, temp_8am: 64.1, precip_in: 0.01, condition: 'Drizzle'       },
+  2024: { date: '2024-05-18', high_f: 75.7, low_f: 66.1, temp_8am: 68.9, precip_in: 0.61, condition: 'Rain'          },
+  2025: { date: '2025-05-17', high_f: 84.6, low_f: 69.3, temp_8am: 70.2, precip_in: 0.22, condition: 'Rain'          },
+  2026: { date: '2026-05-16', high_f: 84.7, low_f: 57.9, temp_8am: 60.3, precip_in: 0.00, condition: 'Partly Cloudy' },
 };
 
 
