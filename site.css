@@ -183,8 +183,13 @@ footer {
 }
 footer a { color: var(--muted); }
 
+.chart-card.wide {
+  grid-column: 1 / 3;
+}
+
 @media (max-width: 900px) {
   .charts-grid { grid-template-columns: 1fr; }
+  .chart-card.wide { grid-column: 1; }
 }
 @media (max-width: 560px) {
   .chart-wrap { height: 240px; }
