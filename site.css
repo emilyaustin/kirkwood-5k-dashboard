@@ -111,7 +111,7 @@ section h2 {
 /* ── Chart Cards ── */
 .charts-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(460px, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1.25rem;
 }
 .chart-card {
@@ -183,7 +183,9 @@ footer {
 }
 footer a { color: var(--muted); }
 
-@media (max-width: 560px) {
+@media (max-width: 900px) {
   .charts-grid { grid-template-columns: 1fr; }
-  .chart-wrap  { height: 240px; }
+}
+@media (max-width: 560px) {
+  .chart-wrap { height: 240px; }
 }
